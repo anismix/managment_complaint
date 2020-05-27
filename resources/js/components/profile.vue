@@ -14,7 +14,7 @@
           <div class="col-sm-6" >
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Employee Profile</li>
+              <li class="breadcrumb-item active">Employee  Profile</li>
             </ol>
           </div>
         </div>
@@ -122,9 +122,9 @@
 
                   <div class="tab-pane active" id="settings">
                     <form class="form-horizontal"  >
-                      <div class="form-group row">
+                      <div class="form-group row" v-for="user in users"  v-if=" user.id == key "  :key="user.id">
                         <label for="email" class="col-sm-3 col-form-label">Email</label>
-                         <div class="col-sm-10">
+                         <div class="col-sm-10" >
                             <input v-model="form.email" id="email" type="email" name="email"
                               class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
                                   <has-error :form="form" field="email"></has-error>
@@ -280,7 +280,8 @@
 
 
     created(){
-                         fire.$on('ajoutprofile',()=>{
+
+      fire.$on('ajoutprofile',()=>{
    this.afficherMembre();});
    this.afficherMembre();
 

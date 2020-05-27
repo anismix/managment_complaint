@@ -57,6 +57,13 @@ data(){
     }
 }, true);
   },
+  watch:{
+   $route(to,from){
+    console.log("to",to);
+    console.log("from",from);
+
+   }
+  },
    computed: {
             currentUser() {
                 return this.$store.getters.currentUser

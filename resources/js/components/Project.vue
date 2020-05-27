@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
            <div class="col-sm-12 mt-4" >
-            <div class="card" v-if="currentUser.role==='admin'">
+            <div class="card col-sm-12" v-if="currentUser.role==='admin'">
               <div class="card-header">
                 <h3 class="card-title"> Projects:</h3>
                 <div class="card-tools">
@@ -115,6 +115,7 @@
       <has-error :form="form" field="leader"></has-error>
 
     </div>
+
     <div v-show="!x">
                 <label>Membres</label>
                 <select   v-model="form.membre" type="text" name="membre[]" class="form-control" :class="{ 'is-invalid': form.errors.has('membre') } " multiple="multiple">
@@ -227,7 +228,7 @@ import { setAuthorization } from "../helpers/general";
 
 
          created(){
-           
+
           //   axios.get('api/getc');
     axios.get('api/progress').then(({ data }) =>(this.progress = data.data));
       this.afficherClient();

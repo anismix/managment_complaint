@@ -5,6 +5,7 @@ import VueProgressBar from 'vue-progressbar'
 import StoreData from './store';
 import Vuex from 'vuex';
 import seww from "sweetalert2"
+import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';
 import boss from './components/Boss.vue'
 window.seww =seww;
 import {routes} from './routes';
@@ -17,6 +18,7 @@ window.Vue = require('vue');
 window.Form=Form;
 Vue.use(VueRouter)
 Vue.component('Notification' ,require('./components/Notification.vue').default);
+Vue.component('not-found' , require('./components/404.vue').default);
 const store = new Vuex.Store(StoreData);
 
 import 'fullcalendar/dist/fullcalendar.css'
@@ -25,7 +27,8 @@ import Print from 'vue-print-nb'
 
 
 Vue.use(Print);
-/**npm instal
+
+Vue.use(BootstrapVue)/**npm instal
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".

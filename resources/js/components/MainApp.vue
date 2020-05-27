@@ -40,9 +40,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <!-- Notifications Dropdown Menu -->
     <Notification> </Notification>
-    
+
 </ul>
-    
+
 </nav>
 
   <!-- /.navbar -->
@@ -50,9 +50,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
+
     <router-link to="/home" class="brand-link">
 
-      <span class="brand-text font-weight-light">######</span>
+      <span class="brand-text font-weight-light">Project Managment </span>
     </router-link>
 
     <!-- Sidebar -->
@@ -114,9 +115,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <p>Tasks :{{ projet.name }}  </p>
             </router-link>
           </li>
-           <li class="nav-item" v-for="projet in projects.projets" :key="projet.id" v-if="currentUser.role==='admin'">
-            <router-link :to="`/task/${projet.id}`" class="nav-link ">
-              <i class="fas fa-circle" style=":#05dfd7"> </i>
+           <li class="nav-item" v-for="projet in projects.projets"  :key="projet.id" v-if="currentUser.role==='admin'">
+            <router-link :to="`/task/${projet.id}`" class="nav-link "
+            :key="$route.fullPath">
+              <i class="fas fa-circle" style="#05dfd7"> </i>
               <p>Tasks :{{ projet.name }}  </p>
             </router-link>
           </li>
@@ -133,19 +135,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
              </p>
            </a>
 
-        <ul class="nav nav-treeview">
+        <ul class="nav nav-treeview" >
              <li class="nav-item"  v-for="(projet,index) in projets" :key="index" v-if="currentUser.role !=='admin' ">
-               <router-link :to="`/gantt/${projet.id}`" class="nav-link ">
+               <router-link :to="'/gantt/'+ projet.id" class="nav-link ">
                  <i class="far fas fa-circle"  style="color:#05dfd7"></i>
                  <p>Gantt : {{ projet.name }}  </p>
                </router-link>
              </li>
-                <li class="nav-item" v-for="projet in projects.projets" :key="projet.id" v-if="currentUser.role==='admin'">
-            <router-link :to="`/gantt/${projet.id}`" class="nav-link ">
-              <i class="fas fa-circle" style="color:#05dfd7"> </i>
-              <p>Gantt:{{ projet.name }}  </p>
+                 <li class="nav-item" v-for="projet in projects.projets"  :key="projet.id" v-if="currentUser.role==='admin'">
+            <router-link :to="'/gantt/'+ projet.id" class="nav-link "
+            :key="$route.fullPath">
+              <i class="fas fa-circle" style="#05dfd7"> </i>
+              <p>Project :{{ projet.name }} </p>
             </router-link>
           </li>
+
 
            </ul>
 
@@ -178,7 +182,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </router-link>
           </li>
-          <li class="nav-item" v-if="currentUser.role !== 'client'" > 
+          <li class="nav-item" v-if="currentUser.role !== 'client'" >
             <router-link to="/calendrier" class="nav-link">
              <i class="fas fa-calendar-plus" style="color:#05dfd7" ></i>
               <p>
@@ -230,16 +234,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
 
     <div class="content">
-    
+
       <div class="container-fluid">
-      
+
         <router-view ></router-view>
-           
-           
+
+
 
                 <!-- /.row -->
       </div><!-- /.container-fluid -->
-    
+
     </div>
     <!-- /.content -->
   </div>
@@ -273,7 +277,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     export default {
         name: 'main-app',
-      
+
         data(){
             return{
 
@@ -293,7 +297,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
         },
             methods: {
-
+            refresh(){
+                window.location.reload();
+                alert('frrrrrrrrrrrrrrrrrrrrr');
+            },
             logout() {
                 this.$store.commit('logout');
                 this.$router.push('/login');
@@ -316,8 +323,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   axios.get('/api/projetadmin',axiosConfig).then(({ data }) =>(this.projects = data));
                 },
         },
-             
-        
+
+
       computed: {
             currentUser() {
                 return this.$store.getters.currentUser

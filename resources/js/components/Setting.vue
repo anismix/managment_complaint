@@ -10,6 +10,42 @@
               <!-- form start -->
               <form   @submit.prevent="modifierdonnées()">
                 <div class="card-body">
+                       <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordian" href="#1">
+                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                           ahds
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="1" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+
+
+                                        <li><a href="#">rrrrrrrrrrr</a></li>
+
+
+
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div><!--/category-products-->
+                    <div class="container">
+                     <span class="badge pull-right"><i class="fa fa-plus" data-toggle="collapse" data-target="#demo"></i></span>
+                    <button type="button" class="btn btn-info" >Simple collapsible</button>
+                    <div id="demo" class="collapse">
+                       aze
+                    </div>
+                    </div>
+
                   <div class="form-group">
                     <label for="exampleInputEmail1"> Email:</label>
                     <input type="email" class="form-control"  placeholder="Votre Email" name="email" v-model="form.email">
@@ -100,12 +136,12 @@ this.form.post('api/updateuserconnecte/').then(()=>{
                 });;
             },
         },
-        
+
              computed: {
             currentUser() {
                 return this.$store.getters.currentUser
             }
-   
+
     }
     }
 

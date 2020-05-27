@@ -7,6 +7,8 @@ use App\Projet;
 use App\Mail\loginMail;
 use App\Mail\ClientMail;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\UpdateData;
+use Illuminate\Support\Facades\Notification;
 use DB;
 class UserController extends Controller
 {
@@ -33,7 +35,6 @@ class UserController extends Controller
             "Chef" => $chef
         ]);
     }
-
   public function  ajouterChefDeProjet(Request $request){
             $this->validate($request,[
           'name' => 'required|string|min:3|max:20',
@@ -53,10 +54,7 @@ class UserController extends Controller
            'password'=> bcrypt($request->password),
            'phone'=> $request->phone,
            'role'=> "chef de projet"
-
        ]);
-
-     
    return response()->json([
        "action"=>"Team Leader added"
    ]);
@@ -74,7 +72,6 @@ class UserController extends Controller
                     'password' => $request->password,
                     'name'  => $request->name
                 );
-
                 Mail::to($request->email)->send(new ClientMail($data));
               return User::create([
                   'name' => $request->name,
@@ -82,10 +79,7 @@ class UserController extends Controller
                  'password'=> bcrypt($request->password),
                  'phone'=> $request->phone,
                  'role'=> "client"
-
              ]);
-
-
           }
           public function client(){
             $client=User::where('role','client')->latest()->paginate(8);
@@ -99,8 +93,6 @@ class UserController extends Controller
         $user=User::find($id);
         $user->update(['email'=>$request->email,'password'=>bcrypt($request->password)]);
     }
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -135,7 +127,6 @@ class UserController extends Controller
           ]);
         }
         public function clientprojet(){
-
             $client= User::where('role','client')->get();
             return response()->json([
                "client"=>$client
@@ -147,7 +138,6 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function Membreprojet()
     {
         $user= User::where('role','<>','admin')->where('role','<>','chef de projet')->where('role','<>','client')->get();
@@ -155,7 +145,6 @@ class UserController extends Controller
             "User"=> $user
         ]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -166,7 +155,6 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
-
         $user=User::find($id);
          $this->validate($request,[
             'name' => 'string|min:3|max:20',
@@ -174,10 +162,8 @@ class UserController extends Controller
             'password'=> 'required|string|min:6',
             'phone' => 'required|min:8'
              ]);
-
           $data = $request->all();
           if ($user->role === 'chef de projet'){
-
             DB::table('users')->where('id',$id)->update(['name'=>$data['name'],'email'=>$data['email'],'password'=>bcrypt($data['password']),'phone'=>$data['phone']]);
                }
                else if($user->role === 'client'){
@@ -187,22 +173,27 @@ class UserController extends Controller
                else {
               DB::table('users')->where('id',$id)->update(['name'=>$data['name'],'email'=>$data['email'],'password'=>bcrypt($data['password']),'phone'=>$data['phone'],'role'=>$data['role']]);
                }
+               if (($data['password'] !== null) || ($data['email'] !== null)){
+                $data = array(
+                    'email' => $data['email'],
+                    'password' => $data['password'],
+                   );
+                   $when = now()->addSeconds(10);
+                   Notification::send( $user,(new UpdateData ($data))->delay($when));
+               }
     }
     public function chefprojet(){
     $chef= User::where('role','chef de projet')->get();
     return response()->json([
         "Chef"=> $chef
     ]);
-
 }
 public function chefprojetwP(){
     $chef= User::where('role','chef de projet')->latest()->paginate(2);
     return response()->json([
         "Chef"=> $chef
     ]);
-
 }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -217,7 +208,6 @@ public function chefprojetwP(){
     public function updateProfile(Request $request)
     {
         $user = auth()->user();
-
        if($request->email != null){
         $this->validate($request,[
             'email' =>'string|email|unique:users',
@@ -243,16 +233,10 @@ public function chefprojetwP(){
                         'location' => 'string|min:6|max:191',
                     ]);
                     }
-
           if($request->photo !=null){
-
-
         $currentPhoto = $user->photo;
-
-
         if($request->photo != $currentPhoto){
             $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
-
             \Image::make($request->photo)->save(public_path('img/profile/').$name);
             $request->merge(['photo' => $name]);
             $userPhoto = public_path('img/profile/').$currentPhoto;
@@ -260,7 +244,6 @@ public function chefprojetwP(){
             //    @unlink($userPhoto);
             }
 }
-
    if($request->email != null){
    $user->email=$request->email;
    $user->save();
@@ -285,11 +268,9 @@ public function chefprojetwP(){
     $user->photo=$request->photo;
     $user->save();
    }
-
         return ['message' => "Success"];
     }
 else {
-
     if($request->email != null){
         $user->email=$request->email;
         $user->save();
@@ -315,8 +296,6 @@ else {
          $user->save();
         }
 }
-
-
 }
 public function Membrechefprojet()
     {

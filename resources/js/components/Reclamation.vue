@@ -10,7 +10,7 @@
                 </div>
               </div>
               <!-- /.card-header -->
-                <div class="">
+                <div class="card-body table-responsive p-0">
                 <table class="table ">
                   <thead>
                     <tr>
@@ -38,15 +38,19 @@
                       <td v-if="currentUser.role !== 'chef de projet' || currentUser.role !== 'chef de projet'">{{ reclamation.Created_at  | date }}</td>
                       <td v-if="currentUser.role !=='client'"> {{reclamation.nameClient}} </td>
                      <td v-if="currentUser.role==='admin' || currentUser.role==='chef de projet'">
-                      <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user-plus" style="color:#05dfd7;"></i>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"  name="membre" >
-                          <a class="dropdown-item" href="#" v-for="membre in membres.User" :key="membre.id"  @click="assignTo(reclamation.id,membre.id)"  :value="membre.id"> <img class=" img-circle float-left ml-0" :src="`/img/profile/${ membre.photo }`"
-                          alt="User profile picture" style="width:35px;"><span >{{ membre.name }}   </span> </a>
-                        </div>
-                      </div>
+                   <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-user-plus" style="color:#05dfd7;">
+
+                        </i>
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                       <li> <a class="dropdown-item" href="#" v-for="membre in membres.User" :key="membre.id"
+                         @click="assignTo(reclamation.id,membre.id)"  :value="membre.id"> <img class=" img-circle float-left ml-0"
+                         :src="`/img/profile/${ membre.photo }`"
+                          alt="User profile picture" style="width:25px;"> <span>{{ membre.name }} </span> </a>
+                        </li>
+                        </ul>
+                    </div>
                       </td>
                       <td v-for="membre in membres.User" :key="membre.id" v-if=" reclamation.employe_id == membre.id && currentUser.role !=='client' "><img class=" img-circle" :src="`/img/profile/${ membre.photo }`"
                       alt="User profile picture" style="width:35px;"><span class="ml-1" >{{ membre.name }}   </span>

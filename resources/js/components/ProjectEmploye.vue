@@ -78,7 +78,7 @@
           <!-- /.card-body -->
         </div>
       </div>
-<div v-if="currentUser === 'admin'">
+<div v-if="currentUser.role === 'admin'">
    <not-found></not-found>
 </div>
 

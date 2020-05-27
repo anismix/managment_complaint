@@ -31,7 +31,7 @@ export const routes = [
         {path: '/client/:id' , component: clientdetail, meta: {requiresAuth: true} },
 
         {path: '/home' , component: home , meta: {requiresAuth: true}},
-        {path: '/gantt/:id' , component: gantt, meta: {requiresAuth: true}},
+        {path: '/gantt/:id' , component: gantt, name:gantt, meta: {requiresAuth: true}},
         {path: '/reclamation' , component: reclamation, meta: {requiresAuth: true}},
         {path: '/detailleReclamation/:id' , component: DetailleReclamation, meta: {requiresAuth: true}},
         {path: '/profile/:id' , component: profile , meta: {requiresAuth: true}},
@@ -40,10 +40,10 @@ export const routes = [
         ]
 },
     {path: '/login', component: Login,meta: {requiresAuth: false}
-   
+
  },
    {path: '*' , name:'not-found' ,component:    require('./components/404.vue').default },
-   
+
 
 
   ];
