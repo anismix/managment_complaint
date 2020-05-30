@@ -140,7 +140,7 @@ export default {
 		}
 		.login_btn {
 			width: 100%;
-			background: #092534 !important;
+			background: #343a40 !important;
 			color: white !important;
 		}
 		.login_btn:focus {
@@ -151,7 +151,7 @@ export default {
 			padding: 0 2rem;
 		}
 		.input-group-text {
-			background: #092534 !important;
+			background:#343a40 !important;
 			color: white !important;
 			border: 0 !important;
 			border-radius: 0.25rem 0 0 0.25rem !important;
